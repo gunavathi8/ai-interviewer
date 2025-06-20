@@ -7,13 +7,13 @@ question_prompt = PromptTemplate(
     - A brief expected answer key (2–3 sentences).
     - A difficulty level (easy, medium, hard).
     Avoid repeating questions from the conversation history: {history}.
-    Format the output as JSON:
+    Return the response as a valid JSON object, enclosed in triple backticks:
     ```json
-    {
+    {{
       "question": "Question text here",
       "answer_key": "Expected answer here",
       "difficulty": "easy/medium/hard"
-    }
+    }}
     ```
     """
 )
@@ -27,13 +27,14 @@ evaluation_prompt = PromptTemplate(
     Provide:
     - A score (0–10).
     - Brief feedback (2–3 sentences) explaining the score.
-    Format the output as JSON:
+    Return the response as a valid JSON object, enclosed in triple backticks:
     ```json
-    {
+    {{
       "score": 0,
       "feedback": "Feedback text here"
-    }
+    }}
     ```
+    Ensure the output is strictly JSON, with no additional text outside the backticks.
     """
 )
 
@@ -44,12 +45,13 @@ feedback_prompt = PromptTemplate(
     - Strengths (e.g., strong accuracy, clear explanations).
     - Areas for improvement (e.g., lack of depth, incorrect concepts).
     Provide a concise summary (3–5 sentences) in a professional tone.
-    Format the output as JSON:
+    Return the response as a valid JSON object, enclosed in triple backticks:
     ```json
-    {
+    {{
       "summary": "Summary text here",
       "average_score": 0.0
-    }
+    }}
     ```
+    Ensure the output is strictly JSON, with no additional text outside the backticks.
     """
 )

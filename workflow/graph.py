@@ -1,19 +1,6 @@
-from typing import TypedDict, List
-from langgraph.graph import StateGraph, START, END
+from langgraph.graph import StateGraph, END
 from agents.agent import InterviewerAgent
-
-class InterviewState(TypedDict):
-    topic: str
-    question_count: int
-    questions: List[dict]
-    answers: List[str]
-    scores: List[int]
-    feedbacks: List[str]
-    history: str
-    current_question: dict
-    current_answer: str
-    decision: str
-
+from utils.types import InterviewState
 
 def build_graph(agent: InterviewerAgent):
     workflow = StateGraph(InterviewState)
@@ -22,11 +9,10 @@ def build_graph(agent: InterviewerAgent):
     workflow.add_node("generate_question", agent.generate_question)
     workflow.add_node("collect_answer", agent.collect_answer)
     workflow.add_node("evaluate_answer", agent.evaluate_answer)
-    workflow.add_node("decide_next", lambda state: {"decision": decide_next(state)})
+    workflow.add_node("decide_next", decide_next)
     workflow.add_node("generate_feedback", agent.generate_feedback)
-    
+
     workflow.set_entry_point("select_topic")
-    workflow.add_edge(START, "select_topic")
     workflow.add_edge("select_topic", "generate_question")
     workflow.add_edge("generate_question", "collect_answer")
     workflow.add_edge("collect_answer", "evaluate_answer")
@@ -40,13 +26,15 @@ def build_graph(agent: InterviewerAgent):
         }
     )
     workflow.add_edge("generate_feedback", END)
-    
+
     return workflow.compile()
 
-def decide_next(state: InterviewState):
-    if state["question_count"] < 5 and state["scores"][-1] < 5:
-        return "continue"
-    elif state["question_count"] >= 5:
-        return "end"
-    return "continue"
-
+def decide_next(state: InterviewState) -> InterviewState:
+    print(f"Deciding next step. State: {state}")
+    if state.get("decision") == "end" or state.get("question_count", 0) >= 5:
+        state["decision"] = "end"
+    elif state.get("scores") and state["scores"][-1] < 5:
+        state["decision"] = "continue"
+    else:
+        state["decision"] = "continue"
+    return state

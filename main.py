@@ -1,5 +1,5 @@
 from agents.agent import InterviewerAgent
-from workflow.graph import build_graph
+from workflow.graph import build_graph, InterviewState
 
 def main():
     print("Welcome to the AI Interviewer Agent!")
@@ -9,10 +9,23 @@ def main():
     agent = InterviewerAgent()
     graph = build_graph(agent)
     
-    state = {}
+    # Initialize state with default values
+    state: InterviewState = {
+        "topic": "",
+        "question_count": 0,
+        "questions": [],
+        "answers": [],
+        "scores": [],
+        "feedbacks": [],
+        "history": "",
+        "current_question": {},
+        "current_answer": "",
+        "decision": ""
+    }
+    
     try:
         for output in graph.stream(state):
-            pass  # Output handled in nodes
+            print(f"Graph output: {output}")
     except KeyboardInterrupt:
         print("\nInterview terminated by user.")
         exit(0)
