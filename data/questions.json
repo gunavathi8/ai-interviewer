@@ -41,6 +41,27 @@
     "answer_key": "Decorators are functions that modify the behavior of another function. They are used to add functionality to existing functions without modifying their code, often used for logging, access control, or caching.",
     "difficulty": "medium"
   },
+  {
+    "id": "py3",
+  "topic": "Python",
+  "question": "What is the difference between deep copy and shallow copy in Python?",
+  "answer_key": "A shallow copy creates a new object but inserts references into it to the objects found in the original. A deep copy creates a new object and recursively copies all objects found in the original, creating independent copies.",
+  "difficulty": "medium"
+  },
+  {
+    "id": "db1",
+    "topic": "Databases",
+    "question": "What is normalization in databases?",
+    "answer_key": "Normalization is the process of organizing a database to reduce redundancy and improve data integrity. It involves dividing a database into tables and defining relationships between them.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "db2",
+    "topic": "Databases",
+    "question": "What is the difference between SQL and NoSQL databases?",
+    "answer_key": "SQL databases are relational and use structured query language for defining and manipulating data, while NoSQL databases are non-relational, allowing for flexible data models such as key-value pairs, documents, or graphs.",
+    "difficulty": "easy"    
+  },
 {
   "id": "web1",
   "topic": "Web Development",
