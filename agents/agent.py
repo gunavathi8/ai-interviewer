@@ -27,7 +27,7 @@ class InterviewerAgent:
         )
         self.vector_store = VectorStore()
         self.max_questions = 5
-        self.max_hints = 1  # Limit to 1 hint/follow-up per question
+        self.max_hints = 1
         self.used_questions = set()
         self.difficulty_levels = ["easy", "medium", "hard"]
 
@@ -99,7 +99,7 @@ class InterviewerAgent:
         state["questions"].append(question)
         if not state.get("is_follow_up", False):
             state["question_count"] = state.get("question_count", 0) + 1
-            state["hint_count"] = 0  # Reset hint count for new question
+            state["hint_count"] = 0
         state["history"] = state.get("history", "") + f"Question: {question['question']}\n"
         state["current_question"] = question
         state["is_follow_up"] = False
@@ -194,23 +194,26 @@ class InterviewerAgent:
             if response_text.startswith("```json\n") and response_text.endswith("\n```"):
                 response_text = response_text[8:-4]
             feedback = json.loads(response_text)
+            # Round average score to nearest integer
+            feedback["average_score"] = round(feedback["average_score"])
         except json.JSONDecodeError:
+            average_score = sum(state["scores"]) / len(state["scores"]) if state["scores"] else 0.0
             feedback = {
                 "summary": "Unable to generate summary due to formatting issue.",
-                "average_score": sum(state["scores"]) / len(state["scores"]) if state["scores"] else 0.0
+                "average_score": round(average_score)
             }
         
         print("\n=== Interview Summary ===")
+        print(f"Your interview score is {feedback['average_score']}/10")
         for i, (question, answer, score, feedback_text) in enumerate(zip(
             state["questions"], state["answers"], state["scores"], state["feedbacks"]
         )):
-            print(f"Question {i + 1}: {question['question']}")
+            print(f"\nQuestion {i + 1}: {question['question']}")
             print(f"Answer: {answer}")
             print(f"Score: {score}/10")
-            print(f"Feedback: {feedback_text}\n")
+            print(f"Feedback: {feedback_text}")
         
-        print(f"Average Score: {feedback['average_score']:.2f}")
-        print(f"Summary: {feedback['summary']}")
+        print(f"\nSummary: {feedback['summary']}")
         state["feedback"] = feedback
         logging.info(f"Summary: Average Score={feedback['average_score']}, Summary={feedback['summary']}")
         self.save_interview_output(state)
@@ -220,6 +223,7 @@ class InterviewerAgent:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_file = Path(f"interview_{timestamp}.md")
         markdown_content = f"# Interview Summary for {state['topic'].capitalize()} ({timestamp})\n\n"
+        markdown_content += f"**Your interview score is {state['feedback']['average_score']}/10**\n\n"
         
         for i, (question, answer, score, feedback) in enumerate(zip(
             state["questions"], state["answers"], state["scores"], state["feedbacks"]
@@ -234,11 +238,9 @@ class InterviewerAgent:
         
         markdown_content += (
             f"## Final Summary\n"
-            f"**Average Score**: {state['feedback']['average_score']:.2f}\n"
             f"**Summary**: {state['feedback']['summary']}\n"
         )
         
         with output_file.open("w", encoding="utf-8") as f:
             f.write(markdown_content)
         logging.info(f"Saved interview output to {output_file}")
-

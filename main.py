@@ -4,7 +4,7 @@ from workflow.graph import build_graph, InterviewState
 def main():
     print("Welcome to the AI Interviewer Agent!")
     print("==================================")
-    print("This tool simulates a technical interview with 3–5 questions.")
+    print("This tool simulates a technical interview with 5 questions.")
     
     agent = InterviewerAgent()
     graph = build_graph(agent)
