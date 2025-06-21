@@ -9,7 +9,6 @@ def main():
     agent = InterviewerAgent()
     graph = build_graph(agent)
     
-    # Initialize state with default values
     state: InterviewState = {
         "topic": "",
         "question_count": 0,
@@ -20,12 +19,15 @@ def main():
         "history": "",
         "current_question": {},
         "current_answer": "",
-        "decision": ""
+        "decision": "",
+        "current_difficulty": "easy",
+        "is_follow_up": False,
+        "hint_count": 0
     }
     
     try:
-        for output in graph.stream(state):
-            print(f"Graph output: {output}")
+        for _ in graph.stream(state, config={"recursion_limit": 50}):
+            pass
     except KeyboardInterrupt:
         print("\nInterview terminated by user.")
         exit(0)

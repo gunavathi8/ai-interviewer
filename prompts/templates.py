@@ -55,3 +55,20 @@ feedback_prompt = PromptTemplate(
     Ensure the output is strictly JSON, with no additional text outside the backticks.
     """
 )
+
+hint_prompt = PromptTemplate(
+    input_variables=["question", "user_answer", "feedback"],
+    template="""You are a technical interviewer assisting a candidate who struggled with the question: "{question}". Their answer was: "{user_answer}", with feedback: "{feedback}". Provide either:
+    - A concise hint to guide them toward the correct answer (1–2 sentences).
+    - A simpler follow-up question on the same topic to reinforce understanding.
+    Decide based on whether the answer shows partial understanding (hint) or significant confusion (follow-up).
+    Return the response as a valid JSON object, enclosed in triple backticks:
+    ```json
+    {{
+      "type": "hint" or "follow-up",
+      "content": "Hint or follow-up question text here"
+    }}
+    ```
+    Ensure the output is strictly JSON, with no additional text outside the backticks.
+    """
+)
