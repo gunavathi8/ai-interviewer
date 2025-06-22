@@ -13,3 +13,9 @@ data/chroma/
 
 # Ignore log files
 *.log
+
+# Ignore Output files
+output/*.md
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/

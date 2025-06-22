@@ -41,15 +41,13 @@ evaluation_prompt = PromptTemplate(
 feedback_prompt = PromptTemplate(
     input_variables=["scores", "feedbacks"],
     template="""You are a technical interviewer providing final feedback after an interview. Based on the scores {scores} and per-question feedback {feedbacks}, summarize the candidate's performance. Highlight:
-    - Average score.
     - Strengths (e.g., strong accuracy, clear explanations).
     - Areas for improvement (e.g., lack of depth, incorrect concepts).
     Provide a concise summary (3–5 sentences) in a professional tone.
     Return the response as a valid JSON object, enclosed in triple backticks:
     ```json
     {{
-      "summary": "Summary text here",
-      "average_score": 0.0
+      "summary": "Summary text here"
     }}
     ```
     Ensure the output is strictly JSON, with no additional text outside the backticks.
@@ -70,5 +68,23 @@ hint_prompt = PromptTemplate(
     }}
     ```
     Ensure the output is strictly JSON, with no additional text outside the backticks.
+    """
+)
+
+weight_prompt = PromptTemplate(
+    input_variables=["topic", "questions"],
+    template="""You are a technical interviewer assigning weights to interview questions on the topic '{topic}'. Based on the following questions, assign a weight to each question reflecting its:
+    - Importance: Relevance to core concepts of the topic.
+    - Complexity: Difficulty level (easy, medium, hard).
+    - Relevance: Practical application in the field.
+    The weights should be floats (e.g., 0.30, 0.20) summing to 1.0, with higher weights for more important/complex/relevant questions.
+    Questions: {questions}
+    Return the response as a valid JSON object, enclosed in triple backticks:
+    ```json
+    {{
+      "weights": [0.30, 0.20, 0.20, 0.20, 0.10]
+    }}
+    ```
+    Ensure the output is strictly JSON, with no additional text outside the backticks, and the weights sum to 1.0.
     """
 )

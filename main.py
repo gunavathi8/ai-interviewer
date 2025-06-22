@@ -1,10 +1,12 @@
 from agents.agent import InterviewerAgent
 from workflow.graph import build_graph, InterviewState
+import sys
+import subprocess
 
 def main():
     print("Welcome to the AI Interviewer Agent!")
     print("==================================")
-    print("This tool simulates a technical interview with 5 questions.")
+    print("Hi! I'm your AI interviewer. Let's start the interview process.")
     
     agent = InterviewerAgent()
     graph = build_graph(agent)
@@ -34,3 +36,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
