@@ -23,36 +23,33 @@ Built by **Gunavathi** an AI Developer
 - OpenAI API Key
 - (Recommended) Virtual Environment
 
-### 📦 Installation
+## 📦 Installation
 
 
-# Clone the repository
+### Clone the repository
 git clone https://github.com/Gunavathi/AI-Interviewer-Agent.git
 cd AI-Interviewer-Agent
 
-# Create and activate virtual environment
+### Create and activate virtual environment
 python -m venv venv
-# Windows
+### Windows
 venv\\Scripts\\activate
-# Linux/Mac
+### Linux/Mac
 source venv/bin/activate
 
-# Install required packages
+### Install required packages
 pip install -r requirements.txt
 
-
 ### 📄 Environment Variables
-Create a .env file in the root directory:
-
+#### Create a .env file in the root directory:
 OPENAI_API_KEY=your_openai_api_key_here
-
 
 ### 📁 Verify Data
 
 Ensure data/questions.json contains example questions (e.g., Python, ML). The LLM will auto-generate additional questions if needed.
 
 
-## 🧠 Technologies Used
+### 🧠 Technologies Used
 
 - Python: Core language
 
@@ -71,7 +68,7 @@ Ensure data/questions.json contains example questions (e.g., Python, ML). The LL
 - Dotenv: API key management
 
 
-## 🧩 Design Decisions & Flow
+### 🧩 Design Decisions & Flow
 
 #### ✅ Highlights
 
@@ -86,7 +83,8 @@ Ensure data/questions.json contains example questions (e.g., Python, ML). The LL
 - State Tracking: Full interview history stored in InterviewState
 
 ## 🔁 Workflow via LangGraph (workflow/graph.py)
-final_workflow.png
+![Workflow Diagram](final_workflow.png)
+
 
 
 ### 📊 Optional Features Implemented
@@ -106,20 +104,20 @@ final_workflow.png
 
 ### ▶️ Run the App
 
-#### Activate venv
+### Activate venv
 venv\Scripts\activate
 
-#### Start Interview (CLI mode)
+### Start Interview (CLI mode)
 python main.py
 
-#### 💬 Interact
+### 💬 Interact
 Enter a topic (e.g., data structures)
 
 Answer questions (with optional hints)
 
 After 5 questions, view your final report and scores
 
-#### 📁 Output
+### 📁 Output
 Markdown summary saved in: output/interview_<timestamp>.md
 
 Debug logs in: interview.log
