@@ -32,9 +32,9 @@ cd AI-Interviewer-Agent
 
 ### Create and activate virtual environment
 python -m venv venv
-### Windows
+**Windows**
 venv\\Scripts\\activate
-### Linux/Mac
+**Linux/Mac**
 source venv/bin/activate
 
 ### Install required packages
@@ -45,12 +45,10 @@ pip install -r requirements.txt
 OPENAI_API_KEY=your_openai_api_key_here
 
 ### 📁 Verify Data
-
 Ensure data/questions.json contains example questions (e.g., Python, ML). The LLM will auto-generate additional questions if needed.
 
 
 ### 🧠 Technologies Used
-
 - Python: Core language
 
 - LangChain: For LLM integration and prompt handling
@@ -71,7 +69,6 @@ Ensure data/questions.json contains example questions (e.g., Python, ML). The LL
 ### 🧩 Design Decisions & Flow
 
 #### ✅ Highlights
-
 - Modular Architecture: Clean separation of agents, prompts, utils, and workflow
 
 - Hybrid Question Source: First try vector DB; fallback to LLM
@@ -86,8 +83,9 @@ Ensure data/questions.json contains example questions (e.g., Python, ML). The LL
 ![Workflow Diagram](final_workflow.png)
 
 
-
 ### 📊 Optional Features Implemented
+- ✅ Vector Store for personal question bank (ChromaDB)
+
 - ✅ Weighted Scoring (sum = 1.0)
 
 - ✅ Adaptive Difficulty (question level adjusts per response)
@@ -96,42 +94,36 @@ Ensure data/questions.json contains example questions (e.g., Python, ML). The LL
 
 - ✅ Markdown Report Generation
 
-- ✅ Score Chart (bar chart of per-question scores in Streamlit)
-
-- ✅ Logging (stored in interview.log)
 
 ## 🧪 Usage
 
 ### ▶️ Run the App
 
-### Activate venv
+**Activate venv**
 venv\Scripts\activate
 
-### Start Interview (CLI mode)
+**Start Interview (CLI mode)**
 python main.py
 
-### 💬 Interact
-Enter a topic (e.g., data structures)
+**💬 Interact**
+- Enter a topic (e.g., data structures)
 
-Answer questions (with optional hints)
+- Answer questions (with optional hints)
 
-After 5 questions, view your final report and scores
+- After 5 questions, view your final report and scores
 
-Final feedback + markdown summary saved in output/
+- Final feedback + markdown summary saved in output/
 
-### Streamlit Mode (Web App)
-streamlit run app.py
+**Streamlit Mode (Web App)**
+- streamlit run app.py
 
-Interactive UI in the browser
+- Interactive UI in the browser
 
-All questions, answers, hints, and follow-ups shown in chat format
+- All questions, answers, hints, and follow-ups shown in chat format
 
-Final summary displayed and downloadable as .md
-
-Scores charted using a bar graph
-
+- Final summary displayed and downloadable as .md
 
 ### 📁 Output
-Markdown summary saved in: output/interview_<timestamp>.md
+- Markdown summary saved in: output/interview_<timestamp>.md
 
-Debug logs in: interview.log
+- Debug logs in: interview.log
