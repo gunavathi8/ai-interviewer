@@ -19,7 +19,7 @@ Built by **Gunavathi** an AI Developer
 ## ⚙️ Setup Instructions
 
 ### ✅ Prerequisites
-- Python 3.8+
+- Python 3.11
 - OpenAI API Key
 - (Recommended) Virtual Environment
 
@@ -116,6 +116,20 @@ Enter a topic (e.g., data structures)
 Answer questions (with optional hints)
 
 After 5 questions, view your final report and scores
+
+Final feedback + markdown summary saved in output/
+
+### Streamlit Mode (Web App)
+streamlit run app.py
+
+Interactive UI in the browser
+
+All questions, answers, hints, and follow-ups shown in chat format
+
+Final summary displayed and downloadable as .md
+
+Scores charted using a bar graph
+
 
 ### 📁 Output
 Markdown summary saved in: output/interview_<timestamp>.md

@@ -1,4 +1,4 @@
-import streamlit as st
+import streamlit as st 
 from agents.agent import InterviewerAgent
 from datetime import datetime
 from pathlib import Path
@@ -65,12 +65,8 @@ if st.session_state.state and not st.session_state.summary_displayed:
         answer_key = f"answer_{st.session_state.state['question_count']}_{st.session_state.state['hint_count']}_{st.session_state.state['is_follow_up']}"
         answer = st.text_area("📝 Your answer:", key=answer_key)
 
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            btn_label = "Submit Interview ✅" if st.session_state.state['question_count'] == 5 else "Next ➡️"
-            submit = st.button(btn_label)
-        with col2:
-            hint = st.button("💡 Request Hint", disabled=st.session_state.state.get("hint_count", 0) >= 1)
+        btn_label = "Submit Interview ✅" if st.session_state.state['question_count'] == 5 else "Next ➡️"
+        submit = st.button(btn_label)
 
         if submit and answer.strip():
             st.session_state.state["current_answer"] = answer.strip()
@@ -82,15 +78,14 @@ if st.session_state.state and not st.session_state.summary_displayed:
                 st.session_state.state["decision"] = "continue"
             elif score < 4:
                 st.session_state.state = st.session_state.agent.generate_hint(st.session_state.state)
+                last_line = st.session_state.state["history"].split("\n")[-2]
+                if "Hint:" in last_line:
+                    st.session_state.chat_history.append({"role": "Interviewer", "content": f"💡 {last_line}"})
                 if st.session_state.state["is_follow_up"]:
                     st.session_state.chat_history.append({
                         "role": "Interviewer",
                         "content": f"🔁 Follow-up Question: {st.session_state.state['current_question']['question']}"
                     })
-                else:
-                    last_line = st.session_state.state["history"].split("\n")[-2]
-                    if "Hint:" in last_line:
-                        st.session_state.chat_history.append({"role": "Interviewer", "content": f"💡 {last_line}"})
             else:
                 st.session_state.state["decision"] = "continue"
 
@@ -101,19 +96,6 @@ if st.session_state.state and not st.session_state.summary_displayed:
                     "content": f"❓ Question {st.session_state.state['question_count']}: {st.session_state.state['current_question']['question']}"
                 })
 
-            st.rerun()
-
-        elif hint:
-            st.session_state.state = st.session_state.agent.generate_hint(st.session_state.state)
-            if st.session_state.state["is_follow_up"]:
-                st.session_state.chat_history.append({
-                    "role": "Interviewer",
-                    "content": f"🔁 Follow-up Question: {st.session_state.state['current_question']['question']}"
-                })
-            else:
-                last_hint = st.session_state.state["history"].split("\n")[-2]
-                if "Hint:" in last_hint:
-                    st.session_state.chat_history.append({"role": "Interviewer", "content": f"💡 {last_hint}"})
             st.rerun()
 
     if st.session_state.state["decision"] == "end":
@@ -148,12 +130,10 @@ if st.session_state.summary_displayed:
         f.write(f"\nFinal Score: {st.session_state.state['feedback']['final_score']:.1f}/10\n")
         f.write(f"Summary: {st.session_state.state['feedback']['summary']}\n")
 
-    # ✅ Fix UnicodeDecodeError using encoding
     with open(output_path, "r", encoding="utf-8") as f:
         markdown_data = f.read()
 
     st.download_button("📥 Download Interview Summary", data=markdown_data, file_name=output_path.name)
 
-    # 🎉 Thank You Message
     st.markdown("---")
     st.success("🎉 Thank you for taking the interview! We hope this feedback helps you grow and prepare better. Good luck! 🚀")
